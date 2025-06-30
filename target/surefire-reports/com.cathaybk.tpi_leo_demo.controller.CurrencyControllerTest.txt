@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.cathaybk.tpi_leo_demo.controller.CurrencyControllerTest
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.227 s - in com.cathaybk.tpi_leo_demo.controller.CurrencyControllerTest

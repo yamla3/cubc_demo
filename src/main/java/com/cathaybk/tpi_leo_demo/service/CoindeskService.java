@@ -8,9 +8,13 @@ import org.springframework.web.client.RestTemplate;
 public class CoindeskService {
 
     private final String COINDESK_API_URL = "https://kengp3.github.io/blog/coindesk.json";
+    private final RestTemplate restTemplate;
+
+    public CoindeskService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public CoindeskResponse getCoindeskData() {
-        RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(COINDESK_API_URL, CoindeskResponse.class);
     }
 }
