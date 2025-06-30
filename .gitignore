@@ -1,0 +1,48 @@
+##############################
+## Java
+##############################
+*.class
+*.war
+
+##############################
+## Maven
+##############################
+target/
+
+
+##############################
+## IntelliJ
+##############################
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+##############################
+## Eclipse
+##############################
+.settings/
+bin/
+tmp/
+.metadata
+.classpath
+.project
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+.factorypath
+
+
+##############################
+## OS X
+##############################
+.DS_Store
+.vscode
+*-local.properties
+*_local.properties
+
