@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConvertedBitcoinPriceResponse {
-    private String updatedTime;
-    private List<ConvertedCurrencyInfo> bpi;
+public class ConvertedCurrencyInfo {
+    private String code;
+    private String name;
+    private BigDecimal rate;
 }

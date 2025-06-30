@@ -2,20 +2,22 @@ package com.cathaybk.tpi_leo_demo.controller;
 
 import com.cathaybk.tpi_leo_demo.dto.ConvertedBitcoinPriceResponse;
 import com.cathaybk.tpi_leo_demo.dto.CoindeskResponse;
+import com.cathaybk.tpi_leo_demo.dto.ConvertedCurrencyInfo;
 import com.cathaybk.tpi_leo_demo.service.CoindeskService;
 import com.cathaybk.tpi_leo_demo.service.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 @RestController
 public class CoindeskController {
@@ -50,26 +52,29 @@ public class CoindeskController {
             response.setUpdatedTime(updatedTime);
         }
 
-        // 2. 建立 BPI Map
-        Map<String, Map<String, Object>> bpi = new HashMap<>();
+        // 2. 建立 List<ConvertedCurrencyInfo>
+        List<ConvertedCurrencyInfo> convertedCurrencies = new ArrayList<>();
+
         // 處理 USD
-        processCurrency(bpi, "USD", coindeskResponse.getBpi().getUsd());
+        convertedCurrencies.add(processCurrency("USD", coindeskResponse.getBpi().getUsd()));
         // 處理 GBP
-        processCurrency(bpi, "GBP", coindeskResponse.getBpi().getGbp());
+        convertedCurrencies.add(processCurrency("GBP", coindeskResponse.getBpi().getGbp()));
         // 處理 EUR
-        processCurrency(bpi, "EUR", coindeskResponse.getBpi().getEur());
-        response.setBpi(bpi);
+        convertedCurrencies.add(processCurrency("EUR", coindeskResponse.getBpi().getEur()));
+
+        response.setBpi(convertedCurrencies);
         return response;
     }
 
-    private void processCurrency(Map<String, Map<String, Object>> bpiMap, String currencyCode, com.cathaybk.tpi_leo_demo.dto.CurrencyData data) {
-        Map<String, Object> currencyInfo = new HashMap<>();
-        currencyInfo.put("code", data.getCode());
-        currencyInfo.put("rate", data.getRate());
+    private ConvertedCurrencyInfo processCurrency(String currencyCode, com.cathaybk.tpi_leo_demo.dto.CurrencyData data) {
+        ConvertedCurrencyInfo currencyInfo = new ConvertedCurrencyInfo();
+        currencyInfo.setCode(data.getCode());
+        currencyInfo.setRate(new BigDecimal(data.getRate().replace(",", ""))); // 移除逗號並轉換為 BigDecimal
 
         currencyService.findById(currencyCode)
-                .ifPresent(currency -> currencyInfo.put("name", currency.getName()));
-        bpiMap.put(currencyCode, currencyInfo);
+                .ifPresent(currency -> currencyInfo.setName(currency.getName()));
+
+        return currencyInfo;
     }
 }
 

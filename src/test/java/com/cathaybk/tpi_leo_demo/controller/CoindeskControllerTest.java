@@ -1,7 +1,12 @@
 package com.cathaybk.tpi_leo_demo.controller;
 
-import com.cathaybk.tpi_leo_demo.dto.*;
-import com.cathaybk.tpi_leo_demo.entity.Currency;
+import com.cathaybk.tpi_leo_demo.dto.Bpi;
+import com.cathaybk.tpi_leo_demo.dto.CoindeskResponse;
+import com.cathaybk.tpi_leo_demo.dto.ConvertedBitcoinPriceResponse;
+import com.cathaybk.tpi_leo_demo.dto.ConvertedCurrencyInfo;
+import com.cathaybk.tpi_leo_demo.dto.CurrencyData;
+import com.cathaybk.tpi_leo_demo.dto.CurrencyResponse;
+import com.cathaybk.tpi_leo_demo.dto.Time;
 import com.cathaybk.tpi_leo_demo.service.CoindeskService;
 import com.cathaybk.tpi_leo_demo.service.CurrencyService;
 import org.junit.jupiter.api.Test;
@@ -100,17 +105,16 @@ public class CoindeskControllerTest {
         mockMvc.perform(get("/bitcoin-prices"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.updatedTime").value("2025/06/30 20:00:00")) // 格式化後的日期，UTC+8
-                .andExpect(jsonPath("$.bpi.USD.code").value("USD"))
-                .andExpect(jsonPath("$.bpi.USD.rate").value("50000.00"))
-                .andExpect(jsonPath("$.bpi.USD.name").value("美金"))
-                .andExpect(jsonPath("$.bpi.GBP.code").value("GBP"))
-                .andExpect(jsonPath("$.bpi.GBP.rate").value("40000.00"))
-                .andExpect(jsonPath("$.bpi.GBP.name").value("英鎊"))
-                .andExpect(jsonPath("$.bpi.EUR.code").value("EUR"))
-                .andExpect(jsonPath("$.bpi.EUR.rate").value("60000.00"))
-                .andExpect(jsonPath("$.bpi.EUR.name").value("歐元"));
+                .andExpect(jsonPath("$.bpi[0].code").value("USD"))
+                .andExpect(jsonPath("$.bpi[0].name").value("美金"))
+                .andExpect(jsonPath("$.bpi[0].rate").value(50000.00))
+                .andExpect(jsonPath("$.bpi[1].code").value("GBP"))
+                .andExpect(jsonPath("$.bpi[1].name").value("英鎊"))
+                .andExpect(jsonPath("$.bpi[1].rate").value(40000.00))
+                .andExpect(jsonPath("$.bpi[2].code").value("EUR"))
+                .andExpect(jsonPath("$.bpi[2].name").value("歐元"))
+                .andExpect(jsonPath("$.bpi[2].rate").value(60000.00));
     }
-
-
 }
+
 
